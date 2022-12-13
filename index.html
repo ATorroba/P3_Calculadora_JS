@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculadora</title>
+    <script type = "text/javascript">
+        const numero = () => {
+            return Number(document.getElementById("pantalla").value);
+        }
+
+        const rellenar_info = () => {
+            const n = numero();
+            let mensaje = "";
+            if (n < 100) {
+                mensaje = "Info: El resultado es menor que 100";
+            } else if (n > 200) {
+                mensaje = "Info: El resultado es superior a 200"
+            } else {
+                mensaje = "Info: El resultado está entre 100 y 200"
+            }
+            document.getElementById("info").innerHTML = mensaje;
+        }
+
+        const validar = () => {
+            if(Number.isNaN(numero())){
+                document.getElementById("pantalla").value = "Error";
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        const vaciar = () => {
+            document.getElementById("pantalla").value = "";
+        }
+        const sq = () => {
+            if(!validar()) return;
+            let num = document.getElementById("pantalla");
+            num.value = numero() * numero();
+            rellenar_info();
+        }
+
+        const fact = () => {
+            if(!validar()) return;
+            let num = document.getElementById("pantalla");
+            let a = 1;
+            for(let i = num.value; i > 1 ; i--){
+                a *= i;
+            }
+            num.value = a;
+            return num.value;
+            rellenar_info();
+        }
+
+        //OPERACIONES BINARIAS
+
+        let acumulado = 0;
+        let operacion = "";
+
+        const acumula = n => {
+            switch (operacion) {
+                case "" :
+                    acumulado = n;
+                    break;
+                case "+" :
+                    acumulado += n;
+                    break;
+                case "-" :
+                    acumulado -= n;
+                    break;
+                case "*" :
+                    acumulado *= n;
+                    break;
+                case "/" :
+                    acumulado /= n;
+                    break;
+
+            }
+        }
+
+        const add = () => {
+            if(!validar()) return;
+            acumula(numero());
+            operacion = "+";
+            vaciar();
+            rellenar_info();
+        }
+        const sub = () => {
+            if(!validar()) return;
+            acumula(numero());
+            operacion = "-";
+            vaciar();
+            rellenar_info();
+        }
+
+        const mul = () => {
+            if(!validar()) return;
+            acumula(numero());
+            operacion = "*";
+            vaciar();
+            rellenar_info();
+        }
+
+        const div = () => {
+            if(!validar()) return;
+            acumula(numero());
+            operacion = "/";
+            vaciar();
+            rellenar_info();
+        }
+
+        const eq = () => {
+            if(!validar()) return;
+            acumula(numero());
+            operacion = "";
+
+            document.getElementById("pantalla").value = acumulado;
+            rellenar_info();
+        }
+
+
+
+    </script>
+
+
+</head>
+<body>
+<h2 class="cabecera">Calculadora de CORE</h2>
+<input type="text" id="pantalla">
+<div>
+    <button id="vaciar" onclick="vaciar()">BORRAR</button>
+    <button id="cuadrado" onclick="sq()">x<sup>2</sup></button>
+    <button id="factorial" onclick="fact()">x!</button>
+</div>
+<div>
+    <button id="suma" onclick="add()">+</button>
+    <button id="resta" onclick="sub()">-</button>
+    <button id="multiplicacion" onclick="mul()">*</button>
+    <button id="division" onclick="div()">/</button>
+    <button id="igual" onclick="eq()">=</button>
+</div>
+
+<h2 id="info" class="grande" title="Info sobre el número">Info sobre el número</h2>
+
+</body>
+</html>
